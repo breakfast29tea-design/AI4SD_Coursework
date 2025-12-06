@@ -1,0 +1,17 @@
+name: baseline-unet
+channels:
+  - apple
+  - conda-forge
+  - defaults
+
+dependencies:
+  - python=3.8
+  - numpy
+  - pillow
+  - scikit-learn
+  - matplotlib
+  - tensorflow=2.11
+  - pandas
+  - h5py
+  - pip
+
