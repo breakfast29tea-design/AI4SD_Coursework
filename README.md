@@ -15,21 +15,26 @@ Note: Datasets are not included due to size constraints. Please download raw dat
 
 ## Repository Structure:
 AI4SD_Coursework  
-  * Clone
-    - preprocess
-    - model  
+  * Original_clone
+    - clone_preprocess.py
+    - clone_model.py  
   * Glacier_project   
-    - preprocess  
-    - model  
+    - Glacier_preprocess.py  
+    - Glacier_model&evaluation.py  
   * environment.yml
   * README.md
+  * data
 
 ## Instructions:
-1. Clone this repo.
-2. Download the raw dataset and replace them with the `data` in both `Original_clone` & `Glacier_project`.
-3. Run the preprocess script, this would create a new data file. Please ensure this is horizontal with the two project files.
-4. Train the model: run the model script.
-5. Evaluation using test set (F1 & IoU) is included inside the model script.
+1. Clone this repository.
+2. Download the raw datasets:
+   - `AMAZON` for the clone case.  
+   - `S2GLC` for the glacier case.  
+3. Replace the existing `data` folder with the downloaded dataset folders.  
+   (Please do NOT put the dataset inside the `data` folder — replace the folder itself.)
+4. Run the preprocessing scripts. These will generate the processed data files.
+5. Train the model by running the model scripts.
+6. Evaluation using the test set (F1-score and IoU) is included inside the model scripts.
 
 ## Glacier_project:
 The Glacier Project adapts the original Amazon Attention U-Net:
