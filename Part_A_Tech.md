@@ -52,18 +52,19 @@ Automated deep learning–based segmentation enables scalable, long-term glacier
 ---
 ## 3. Alternative Dataset
 ### 3.1 Dataset selection
-CaFFe (https://doi.pangaea.de/10.1594/PANGAEA.940950?) was chosen in this project. 
+CaFFe (https://doi.pangaea.de/10.1594/PANGAEA.940950?) was chosen in this project.  
 * It includes seven glaciers from 1995 to 2020:
   - Greenland (Jakobshavn Isbrae Glacier)
   - Alaska (Columbia Glacier)
-  - Antarctica (Crane, Dinsmoore-Bombardier-Edgeworth, Mapple, Jorum and the Sjörgen-Inlet Glacier) 
+  - Antarctica (Crane, Dinsmoore-Bombardier-Edgeworth, Mapple, Jorum and the Sjörgen-Inlet Glacier)
+* To prevent leakage, there are five glaciers in training set (599 images, no validation set) while two in test set (122 images). 
 * The images have different spatial resolutions due to acquisition by multiple satellite platforms, including: Sentinel-1, TerraSAR-X, TanDEM-X, ENVISAT, European Remote Sensing Satellite 1&2, ALOS PALSAR, and RADARSAT-1.
 * The dataset used in this project includes Synthetic Aperture Radar (SAR) and zones images.
 * The zone masks categorize each pixel into four semantic classes:
   - Glacier
   - Rock outcrop
   - Ocean (including ice-melange) 
-  - No information available (SAR shadows, layover regions, and areas outside the swath) 
+  - No information available (SAR shadows, layover regions, and areas outside the swath)  
 
 ### 3.2 Data access and ethics
 * The dataset is openly available through the PANGAEA data repository.  
@@ -80,12 +81,50 @@ Please find `Glacier_preprocess.py` in `Glacier_project`. The script performs:
 * Label generation for glacier front detection: multi-class zone masks are remapped to a binary segmentation task 
   Since the goal is to identify the calving front (retreating glacier vs ocean), the binary mask classifies pixels as either **ocean (background) or non-ocean (glacier foreground)**.
 
+---
 ## 4. Model Adaptation
 ### 4.1 Architectural changes
+The original Attention U-Net was adapted to the glacier calving front detection task for differences in **data modality (optical → SAR), input dimensions, and computational constraints**.  
+Key modifications include:  
+* **Input channels:** Original model used 4-band optical imagery; while the adapted model takes **single-channel SAR images**.  
+* **Attention gate (AG) simplification:** The original AG was simplified to reduce computation while maintaining skip-connection modulation.
+  - Replaced *Conv 1×1 + MaxPooling (2×2)* with a single **Conv 1×1 with stride = 2** (no separate max pooling).
+  - Removed explicit channel repetition, for Keras/TensorFlow handles channel broadcasting automatically. 
+* **Upsampling strategy:** Replaced *transpose convolution* with **simple upsampling + Conv2D** to reduce memory usage and computation time.  
+* **Reduced depth:** Three-layer U-Net architecture (4 -> 3) was used to lower training complexity.
+
 ### 4.2 Hyperparameter tuning
 
+|Hyperparameter|Original Model|Adapted Model|
+|:---:|:---:|:---:|
+|dropout|0.25|0.3|
+|learning_rate|5e-4|1e-6|
+|loss|binary cross entropy|dice loss|
+|batch size|2|8|
+|training epochs|60|30|
+
+---
 ## 5. Evaluation
 ### 5.1 Performance comparison
+The performance of all models are listed in the table:
+
+|Model|F1-score|IoU|
+|---|---|---|
+|Original Deforestation|0.9581|0.9199|
+|Clone Deforestation|0.9601|0.9233|
+|Glacier Original Model|0.9367|0.8824|
+|Adapted Glacier Model (Simplified)|0.9341|0.8778|
+
 ### 5.2 Metrics
+F1 & Jaccard score (Intersection over Union, IoU) were suitable for evaluation, because:
+- **F1-score** balances precision and recall for class-imbalanced segmentation.  
+- **IoU** quantifies the overlap between predicted and ground-truth masks, providing a robust measure of spatial agreement.
+
 ### 5.3 Statistical analysis
+A direct statistical comparison between the original baseline model and the adapted model was not conducted, for models were trained on fundamentally different data modalities: the former was trained on 4-band optical imagery (RGB + NIR), whereas the latter was trained on single-channel SAR imagery. Due to the **mismatch in input distributions** and learning conditions, a paired statistical test under identical experimental settings was not methodologically appropriate.
+As a result, a paired t-test was conducted to compare the performance of the **original glacier model** and the **simplified glacier model**, as both networks were trained and evaluated on the same SAR dataset.
+
+The result *t=-7.5, p<0.001* indicates a statistically significant performance difference between the two models, with the original glacier model outperforming the simplified version, which is consistent with the quantitative performance trends observed in Section 5.1.
+
 ### 5.4 Failure case analysis
+
