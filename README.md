@@ -4,13 +4,15 @@ This repository contains code for two cases:
   1. Clone of original Amazon deforestation segmentation (Original_clone)
   2. Glacier calving front detection (Glacier_project)
 
+Technical Implementation (part A in coursework 2) is documented in `Part_A_Tech.md`
+
 Note: Datasets are not included due to size constraints. Please download raw datasets and replace them with the empty folders `data`.
-* For clone case:
+* For Clone Case:
     - original paper: John, D., & Zhang, C. (2022). An attention-based U-Net for detecting deforestation within satellite sensor imagery. *International Journal of Applied Earth Observations and Geoinformation*, 107, 102685.
     (https://www.sciencedirect.com/science/article/pii/S0303243422000113)
     - repo: https://github.com/davej23/attention-mechanism-unet
     - AMAZON dataset: https://zenodo.org/records/4498086#.YMh3GfKSmCU
-* For Glacier project:
+* For Glacier Project:
     - CaFFe dataset: https://doi.pangaea.de/10.1594/PANGAEA.940950?
 
 ## Repository Structure:
