@@ -37,6 +37,14 @@ def resize_and_save_full_image(large_sar, large_mask, base_name: str, output_sub
     # global normalization
     normalized_sar = sar_resized.astype(np.float32) / 255.0
     
+    # per-image contrast stretching (1~99 percentile)
+    p1, p99 = np.percentile(sar, (1, 99))
+    sar = np.clip((sar - p1) / (p99 - p1 + 1e-6), 0, 1)
+
+    # mild gamma correction
+    gamma = 1.2
+    sar = np.power(sar, gamma)
+    
     # binary threshold setting: target area (calving front: glacier + others vs sea)
     processed_mask = (mask_resized <= 127).astype(np.uint8) #127: glacier/ 0: shadow/ 64: rock/ 254: sea
 
