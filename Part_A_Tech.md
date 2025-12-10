@@ -74,7 +74,7 @@ Based on the analysis above, several recommendations related to policy-making co
 
 ---
 ## 3. Alternative Dataset
-### 3.1 Dataset selection
+### 3.1 Dataset Selection
 CaFFe (https://doi.pangaea.de/10.1594/PANGAEA.940950) was chosen in this project.  
 * It includes seven glaciers from 1995 to 2020:
   - Greenland (Jakobshavn Isbrae Glacier)
@@ -89,20 +89,33 @@ CaFFe (https://doi.pangaea.de/10.1594/PANGAEA.940950) was chosen in this project
   - Ocean (including ice-melange) 
   - No information available (SAR shadows, layover regions, and areas outside the swath)  
 
-### 3.2 Data access and ethics
-* The dataset is openly available through the PANGAEA data repository.  
+### 3.2 Data Access & Ethics
+* The dataset is openly available through the PANGAEA data repository.
+  - CaFFe: CAlving Fronts and where to Find thEm: a benchmark dataset and methodology for automatic glacier calving front extraction from sar imagery
+  - DOI: https://doi.org/10.1594/PANGAEA.940950)
+* Since the data consists of satellite-based Earth observation (SAR) imagery of remote polar regions, there are no personal, sensitive, or identifiable human data involved.
 * Ethical considerations:
-  - Responsible use of environmental data
-  - Careful interpretation of climate-related results
+  - Responsible use of environmental and climate data to avoid misrepresentation or overgeneralization of results.
+  - Transparent reporting of model limitations and uncertainties.
+  - Avoiding misuse of scientific findings in political or misleading climate-related narratives.
+  - All data were used strictly for academic purposes in compliance with the repository's data usage guidelines.
 
-### 3.3 Preprocessing pipeline
+### 3.3 Preprocessing Pipeline
 Please find `Glacier_preprocess.py` in `Glacier_project`. The script performs:
 * Image–mask alignment  
 * Resizing (to 512x512)
 * Normalization: per-image contrast stretching (1–99 percentile) & global scaling
 * Mild gamma correction (to adjust image brightness)
 * Label generation for glacier front detection: multi-class zone masks are remapped to a binary segmentation task 
-  Since the goal is to identify the calving front (retreating glacier vs ocean), the binary mask classifies pixels as either **ocean (background) or non-ocean (glacier foreground)**.
+  - Since the goal is to identify the calving front (retreating glacier vs ocean), the binary mask classifies pixels as either **ocean (background) or non-ocean (glacier foreground)**.
+  - The table is the summary after analysis:
+    
+  |pixel value|represent item|classification|
+  |---|---|---|
+  |0|shadow, no sinal|1 （foreground)|
+  |64|rock outcorp|1 (foreground)|
+  |127|glacier|1 (foreground)|
+  |254|ocean|0 (background)|
 
 ---
 ## 4. Model Adaptation
