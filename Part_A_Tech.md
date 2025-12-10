@@ -25,18 +25,18 @@ Please find files in `Original_clone`.
 ---
 ## 2. New Context & SDG Motivation
 
-Here is the brief summary of the project's goal:
+Here is the brief summary of the project:
 
 |Item|New Context|
 |---|---|
 |Relevant Challenge|Glacier Calving Detection|
-|Tranferability of AI Methodology|Attention U-Net|
+|Tranferred AI Methodology|Attention U-Net|
 |Region of Choice|Polar Circles: Greenland, Antarctic, Alaska|
 
 ### 2.1 Problem Definition
 Glaciers are primarily located in polar and high-latitude regions, far away from most global population. However, the retreat of glacier calving fronts has direct and indirect impacts on global sea-level rise and climate systems, for example, the abnormal weather pattern.  
 * Definition: glacier calving refers to the process where large chunks of ice break off from the terminus of a glacier into the ocean. This phenomenon is a major contributor to glacier mass loss.
-* Mechanism works as a feedback loop: ocean warming -> ice melt -> calving front retreat -> lower resistance -> faster flow rate -> more ice loss at front -> further retreat of calving front
+* Mechanism works as a feedback loop: ocean warming -> ice melt -> calving front retreat -> lower resistance -> faster flow rate -> more ice loss at front -> further retreat of calving front -> sea-level rise
 * All processes in the loop, starting with global warming and ending with sea-level rise, form a feedback loop that makes **glacier calving front a key indicator of climate change**.
  
 Reference:  
@@ -54,8 +54,8 @@ This project aligns with **SDG 13 Climate Action** by developing automated metho
   - A critical limitation is that **improvements in detection accuracy could NOT automatically translate into political or societal action, highlighting the gap between scientific capability and governance implementation**.
 
 * Ethical Issues:  
-  - Risk of misinterpretation: Inaccurate or overconfident model outputs could mislead public discourse or policy decisions.
-  - Data sovereignty: Satellite data often originate from national or military-grade systems, raising concerns about data governance and access equity.
+  - Risk of misinterpretation: inaccurate or overconfident model outputs could mislead public discourse or policy decisions.
+  - Data sovereignty: satellite data often originate from national or military-grade systems, raising concerns about data governance and access equity.
   - Accountability: AI systems cannot replace human responsibility in climate policy. They should be considered as decision-support tools rather than decision-makers.
 
 ### 2.4 Scalability and Sustainability
@@ -75,14 +75,14 @@ Based on the analysis above, several recommendations related to policy-making co
 ---
 ## 3. Alternative Dataset
 ### 3.1 Dataset Selection
-CaFFe (https://doi.pangaea.de/10.1594/PANGAEA.940950) was chosen in this project.  
+CaFFe, Calving Fronts and where to Find them, (https://doi.pangaea.de/10.1594/PANGAEA.940950) was chosen in this project.  
 * It includes seven glaciers from 1995 to 2020:
   - Greenland (Jakobshavn Isbrae Glacier)
   - Alaska (Columbia Glacier)
   - Antarctica (Crane, Dinsmoore-Bombardier-Edgeworth, Mapple, Jorum and the Sjörgen-Inlet Glacier)
 * To prevent leakage, there are five glaciers in training set (599 images, no validation set) while two in the test set (122 images). 
 * The images have different spatial resolutions due to acquisition by multiple satellite platforms, including: Sentinel-1, TerraSAR-X, TanDEM-X, ENVISAT, European Remote Sensing Satellite 1&2, ALOS PALSAR, and RADARSAT-1.
-* The dataset used in this project includes Synthetic Aperture Radar (SAR) and zones images.
+* The data images used in this project include Synthetic Aperture Radar (SAR) and zones images.
 * The zone masks categorize each pixel into four semantic classes:
   - Glacier
   - Rock outcrop
@@ -90,13 +90,10 @@ CaFFe (https://doi.pangaea.de/10.1594/PANGAEA.940950) was chosen in this project
   - No information available (SAR shadows, layover regions, and areas outside the swath)  
 
 ### 3.2 Data Access & Ethics
-* The dataset is openly available through the PANGAEA data repository.
-  - CaFFe: CAlving Fronts and where to Find thEm: a benchmark dataset and methodology for automatic glacier calving front extraction from sar imagery
-  - DOI: https://doi.org/10.1594/PANGAEA.940950)
+* The dataset is openly available through the PANGAEA data repository (DOI: https://doi.org/10.1594/PANGAEA.940950).
 * Since the data consists of satellite-based Earth observation (SAR) imagery of remote polar regions, there are no personal, sensitive, or identifiable human data involved.
 * Ethical considerations:
   - Responsible use of environmental and climate data to avoid misrepresentation or overgeneralization of results.
-  - Transparent reporting of model limitations and uncertainties.
   - Avoiding misuse of scientific findings in political or misleading climate-related narratives.
   - All data were used strictly for academic purposes in compliance with the repository's data usage guidelines.
 
@@ -153,8 +150,26 @@ The proposed adapted model was compared with multiple baselines, models included
 
 ### 5.2 Metrics
 F1 & Jaccard score (Intersection over Union, IoU) were suitable for evaluation, because:
-- **F1-score** balances precision and recall for class-imbalanced segmentation.  
+- **F1-score** balances precision and recall for class-imbalanced segmentation.
+  
+$$
+F1 = 2 \times \frac{Precision \times Recall}{Precision + Recall}
+$$
+
+$$
+Precision = \frac{TP}{TP + FP}
+$$
+
+$$
+Recall = \frac{TP}{TP + FN}
+$$
+
 - **IoU** quantifies the overlap between predicted and ground-truth masks, providing a robust measure of spatial agreement.
+
+$$
+IoU = \frac{TP}{TP + FP + FN}
+$$
+
 
 ### 5.3 Statistical Analysis
 A direct statistical comparison between the original baseline model and the adapted model was not conducted, for models were trained on fundamentally different data modalities: the former was trained on 4-band optical imagery (RGB + NIR), whereas the latter was trained on single-channel SAR imagery. Due to the **mismatch in input distributions** and learning conditions, a paired statistical test under identical experimental settings was not methodologically appropriate.
