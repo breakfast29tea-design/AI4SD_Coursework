@@ -4,7 +4,7 @@ This repository contains code for two cases:
   1. Clone of original Amazon deforestation segmentation (Original_clone)
   2. Glacier calving front detection (Glacier_project)
 
-Technical Implementation (part A in coursework 2) is documented in `Part_A_Tech.md`
+**More details & Technical Implementation Report (part A in coursework 2) is documented in `Part_A_Tech.md`**
 
 Note: Datasets are not included due to size constraints. Please download raw datasets and replace them with the empty folders `data`.
 * For Clone Case:
