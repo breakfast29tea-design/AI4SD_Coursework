@@ -37,7 +37,7 @@ Here is the brief summary of the project's goal:
 Glaciers are primarily located in polar and high-latitude regions, far away from most global population. However, the retreat of glacier calving fronts has direct and indirect impacts on global sea-level rise and climate systems, for example, the abnormal weather pattern.  
 * Definition: glacier calving refers to the process where large chunks of ice break off from the terminus of a glacier into the ocean. This phenomenon is a major contributor to glacier mass loss.
 * Mechanism works as a feedback loop: ocean warming -> ice melt -> calving front retreat -> lower resistance -> faster flow rate -> more ice loss at front -> further retreat of calving front
-* All processes in the loop cause sea-level rising.  
+* All processes in the loop, starting with global warming and ending with sea-level rise, form a feedback loop that makes **glacier calving front a key indicator of climate change**.
  
 Reference:  
 - https://www.worldwildlife.org/resources/explainers/why-are-glaciers-and-sea-ice-melting/  
@@ -119,7 +119,7 @@ Please find `Glacier_preprocess.py` in `Glacier_project`. The script performs:
 
 ---
 ## 4. Model Adaptation
-### 4.1 Architectural changes
+### 4.1 Architectural Changes
 The original Attention U-Net was adapted to the glacier calving front detection task for differences in **data modality (optical → SAR), input dimensions, and computational constraints**.  
 Key modifications include:  
 * **Input channels:** Original model used 4-band optical imagery; while the adapted model takes **single-channel SAR images**.  
@@ -129,7 +129,7 @@ Key modifications include:
 * **Upsampling strategy:** Replaced *transpose convolution* with **simple upsampling + Conv2D** to reduce memory usage and computation time.  
 * **Reduced depth:** Three-layer U-Net architecture (4 -> 3) was used to lower training complexity.
 
-### 4.2 Hyperparameter tuning
+### 4.2 Hyperparameter Tuning
 
 |Hyperparameter|Original Model|Adapted Model|
 |:---:|:---:|:---:|
@@ -141,8 +141,8 @@ Key modifications include:
 
 ---
 ## 5. Evaluation
-### 5.1 Performance comparison
-The performance of all models are listed in the table:
+### 5.1 Performance Comparison
+The proposed adapted model was compared with multiple baselines, models included the original deforestation Attention U-Net, the clone Attention U-Net, a tranferred original Attention U-Net for glacier (GLC), and a simplified GLC Attention U-Net. Performance was evaluated using F1-score and Intersection over Union (IoU), as shown in the table:
 
 |Model|F1-score|IoU|
 |---|---|---|
@@ -156,18 +156,18 @@ F1 & Jaccard score (Intersection over Union, IoU) were suitable for evaluation, 
 - **F1-score** balances precision and recall for class-imbalanced segmentation.  
 - **IoU** quantifies the overlap between predicted and ground-truth masks, providing a robust measure of spatial agreement.
 
-### 5.3 Statistical analysis
+### 5.3 Statistical Analysis
 A direct statistical comparison between the original baseline model and the adapted model was not conducted, for models were trained on fundamentally different data modalities: the former was trained on 4-band optical imagery (RGB + NIR), whereas the latter was trained on single-channel SAR imagery. Due to the **mismatch in input distributions** and learning conditions, a paired statistical test under identical experimental settings was not methodologically appropriate.
 As a result, a paired t-test was conducted to compare the performance of the **original glacier model** and the **simplified glacier model**, as both networks were trained and evaluated on the same SAR dataset.
 
 The result *t=-7.5, p<0.001* indicates a statistically significant performance difference between the two models, with the original glacier model outperforming the simplified version, which is consistent with the quantitative performance trends observed in Section 5.1.
 
-### 5.4 Failure case analysis
+### 5.4 Failure Case Analysis
 1. **Mask Definition Challenge**  
 Foreground vs. Background (Multi-class → Binary Segmentation)
 The original dataset contained multi-class zone labels. However, for calving front detection, only the glacier–ocean boundary is relevant. Several iterations were required to redefine the mask into a binary format (ocean vs. non-ocean). Early experiments showed decreasing F1-score during training, indicating that ambiguous class definitions can prevent effective learning. Refining the mask definition significantly improved training stability.
 
-2. **Data Leakage Risk: Train–Validation Split Debugging**  
+2. **Data Leakage Risk: Train–Validation Split**  
 Unexpectedly high validation performance (near-perfect validation metrics) revealed a risk of data leakage. This was traced to similarities in file naming patterns and spatial overlap between training and validation samples. Since satellite images from the same glacier region share highly similar spatial features, random file-based splitting can cause the model to recognise nearly identical scenes during both training and validation. This required careful re-splitting to ensure true spatial separation between training and validation data.
 
 3. **Domain Shift Challenge: Optical vs. SAR Imagery**  
