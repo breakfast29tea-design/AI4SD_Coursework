@@ -127,4 +127,12 @@ As a result, a paired t-test was conducted to compare the performance of the **o
 The result *t=-7.5, p<0.001* indicates a statistically significant performance difference between the two models, with the original glacier model outperforming the simplified version, which is consistent with the quantitative performance trends observed in Section 5.1.
 
 ### 5.4 Failure case analysis
+1. **Mask Definition Challenge**  
+Foreground vs. Background (Multi-class → Binary Segmentation)
+The original dataset contained multi-class zone labels. However, for calving front detection, only the glacier–ocean boundary is relevant. Several iterations were required to redefine the mask into a binary format (ocean vs. non-ocean). Early experiments showed decreasing F1-score during training, indicating that ambiguous class definitions can prevent effective learning. Refining the mask definition significantly improved training stability.
 
+2. **Data Leakage Risk: Train–Validation Split Debugging**  
+Unexpectedly high validation performance (near-perfect validation metrics) revealed a risk of data leakage. This was traced to similarities in file naming patterns and spatial overlap between training and validation samples. Since satellite images from the same glacier region share highly similar spatial features, random file-based splitting can cause the model to recognise nearly identical scenes during both training and validation. This required careful re-splitting to ensure true spatial separation between training and validation data.
+
+3. **Domain Shift Challenge: Optical vs. SAR Imagery**  
+A major challenge in this project was the domain shift between the original optical 4-band (RGB + NIR) dataset and the adapted 1-band SAR dataset. Optical imagery captures surface reflectance, while SAR imagery is based on microwave backscatter, leading to very different texture patterns and noise characteristics. To mitigate this, contrast stretching and gamma correction were applied, though the intrinsic modality gap remains a fundamental limitation.
