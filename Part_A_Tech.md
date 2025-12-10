@@ -31,8 +31,8 @@ Glaciers are primarily located in polar and high-latitude regions, far away from
 * All processes in the loop cause sea-level rising.
  
 Reference:  
-https://www.worldwildlife.org/resources/explainers/why-are-glaciers-and-sea-ice-melting/
-https://www.climate.gov/news-features/understanding-climate/climate-change-mountain-glaciers
+- https://www.worldwildlife.org/resources/explainers/why-are-glaciers-and-sea-ice-melting/  
+- https://www.climate.gov/news-features/understanding-climate/climate-change-mountain-glaciers
 
 ### 2.2 SDG alignment
 * This project is aligned with **SDG 13 (Climate Action)** by focusing on the development of automated methods for monitoring glacier retreat.  
@@ -52,12 +52,12 @@ Automated deep learning–based segmentation enables scalable, long-term glacier
 ---
 ## 3. Alternative Dataset
 ### 3.1 Dataset selection
-CaFFe (https://doi.pangaea.de/10.1594/PANGAEA.940950?) was chosen in this project.  
+CaFFe (https://doi.pangaea.de/10.1594/PANGAEA.940950) was chosen in this project.  
 * It includes seven glaciers from 1995 to 2020:
   - Greenland (Jakobshavn Isbrae Glacier)
   - Alaska (Columbia Glacier)
   - Antarctica (Crane, Dinsmoore-Bombardier-Edgeworth, Mapple, Jorum and the Sjörgen-Inlet Glacier)
-* To prevent leakage, there are five glaciers in training set (599 images, no validation set) while two in test set (122 images). 
+* To prevent leakage, there are five glaciers in training set (599 images, no validation set) while two in the test set (122 images). 
 * The images have different spatial resolutions due to acquisition by multiple satellite platforms, including: Sentinel-1, TerraSAR-X, TanDEM-X, ENVISAT, European Remote Sensing Satellite 1&2, ALOS PALSAR, and RADARSAT-1.
 * The dataset used in this project includes Synthetic Aperture Radar (SAR) and zones images.
 * The zone masks categorize each pixel into four semantic classes:
