@@ -22,7 +22,8 @@ AI4SD_Coursework
     - clone_model.py  
   * Glacier_project   
     - Glacier_preprocess.py  
-    - Glacier_model&evaluation.py  
+    - Glacier_model&evaluation.py
+  * Part_A_Tech.md
   * environment.yml
   * README.md
   * data
