@@ -24,30 +24,53 @@ Please find files in `Original_clone`.
 
 ---
 ## 2. New Context & SDG Motivation
-### 2.1 Problem definition
-Glaciers are primarily located in polar and high-latitude regions, far away from most global population. However, the retreat of glacier calving fronts has direct and indirect impacts on global sea-level rise and climate systems, and weather changes.
-* Glacier calving refers to the process where large chunks of ice break off from the terminus of a glacier into the ocean. This phenomenon is a major contributor to glacier mass loss.
-* Machnism works as a feedback loop: ocean warming -> ice melt -> calving front retreat -> lower resistance -> faster flow rate -> more ice loss at front -> further retreat of calving front
-* All processes in the loop cause sea-level rising.
+
+Here is the brief summary of the project's goal:
+
+|Item|New Context|
+|---|---|
+|Relevant Challenge|Glacier Calving Detection|
+|Tranferability of AI Methodology|Attention U-Net|
+|Region of Choice|Polar Circles: Greenland, Antarctic, Alaska|
+
+### 2.1 Problem Definition
+Glaciers are primarily located in polar and high-latitude regions, far away from most global population. However, the retreat of glacier calving fronts has direct and indirect impacts on global sea-level rise and climate systems, for example, the abnormal weather pattern.  
+* Definition: glacier calving refers to the process where large chunks of ice break off from the terminus of a glacier into the ocean. This phenomenon is a major contributor to glacier mass loss.
+* Mechanism works as a feedback loop: ocean warming -> ice melt -> calving front retreat -> lower resistance -> faster flow rate -> more ice loss at front -> further retreat of calving front
+* All processes in the loop cause sea-level rising.  
  
 Reference:  
 - https://www.worldwildlife.org/resources/explainers/why-are-glaciers-and-sea-ice-melting/  
 - https://www.climate.gov/news-features/understanding-climate/climate-change-mountain-glaciers
 
-### 2.2 SDG alignment
-* This project is aligned with **SDG 13 (Climate Action)** by focusing on the development of automated methods for monitoring glacier retreat.  
-* Improving monitoring capacity can support climate risk assessment, environmental planning, and long-term climate mitigation strategies.
 
-### 2.3 Limitations and ethics
+### 2.2 SDG Alignment
+This project aligns with **SDG 13 Climate Action** by developing automated methods for monitoring glacier calving front retreat. However, it is important to recognize that *technical monitoring alone does not directly mitigate climate change*. Therefore, its primary value lies in evidence generation, which can inform climate adaptation strategies, early-warning systems, and policy decision-making.  
+
+### 2.3 Limitations and Ethics
 * Limitations:
-  - SAR-based glacier imagery relies on remote sensing data, which may contain inherent noise, geometric distortions, and temporal inconsistencies.
+  - SAR-based glacier imagery relies on remote sensing data, which may contain inherent noise and geometric distortions.
   - The adopted dataset combines imagery from multiple satellite missions, which may involve cross-national governance and access constraints.
+  - A critical limitation is that **improvements in detection accuracy could NOT automatically translate into political or societal action, highlighting the gap between scientific capability and governance implementation**.
 
 * Ethical Issues:  
-  Scientific findings are communicated accurately and responsibly to avoid misinterpretation or misuse in climate-related policy discussions.
+  - Risk of misinterpretation: Inaccurate or overconfident model outputs could mislead public discourse or policy decisions.
+  - Data sovereignty: Satellite data often originate from national or military-grade systems, raising concerns about data governance and access equity.
+  - Accountability: AI systems cannot replace human responsibility in climate policy. They should be considered as decision-support tools rather than decision-makers.
 
-### 2.4 Scalability and sustainability
-Automated deep learning–based segmentation enables scalable, long-term glacier front monitoring across multiple years and geographic regions.
+### 2.4 Scalability and Sustainability
+From a technical perspective, deep learning-based segmentation is scalable across large spatial areas and long temporal sequences. However, scalability is constrained by:
+* High computational and energy costs of model training.
+* Dependency on continuous satellite data availability.
+* Reliance on manually defined masks and human-driven annotation rules, limiting the speed, consistency, and scalability of ground truth generation.
+
+From a sustainable perspective, while model simplification reduces computational cost, the comparison in this project showed that efficiency gains often trade off with performance, indicating an inherent tension between **sustainability of computation and accuracy of climate monitoring**.
+
+### 2.5 Actionable Policy Recommendations
+Based on the analysis above, several recommendations related to policy-making could be proposed:
+* Investment in open-access climate satellite data to reduce global inequality in environmental monitoring.
+* Use of AI-derived glacier retreat indicators as part of national climate risk assessment frameworks.
+* Integration of automated glacier monitoring into early-warning system, especially for coastal regions.
 
 ---
 ## 3. Alternative Dataset
