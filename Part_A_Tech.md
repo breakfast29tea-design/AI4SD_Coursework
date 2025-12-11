@@ -17,7 +17,7 @@
   |Item|F1-score|IoU|
   |---|---|---|
   |Original paper|0.9581|0.9199|
-  |Clone result|0.9626|0.9278|
+  |Clone result|0.9601|0.9233|
 
 ### 1.4 Reproducible scripts and notebooks
 Please find files in `Original_clone`. 
